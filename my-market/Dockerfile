@@ -1,5 +1,5 @@
-# Usar una imagen Maven con JDK 17 (estable)
-FROM maven:3.8.7-openjdk-17-slim AS build
+# Usar una imagen Maven oficial con una versión genérica y estable de OpenJDK
+FROM maven:3.8.5-openjdk-17 AS build
 
 # Crear el directorio de trabajo
 WORKDIR /app
@@ -15,7 +15,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Crear una imagen final con el JAR compilado
-FROM amazoncorretto:18-alpine-jdk
+FROM amazoncorretto:17-alpine-jdk
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 ENTRYPOINT ["java", "-jar", "/app.jar"]
