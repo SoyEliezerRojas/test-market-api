@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.app.my_market.MyMarketApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.109 s - in com.app.my_market.MyMarketApplicationTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.372 s - in com.app.my_market.MyMarketApplicationTests
