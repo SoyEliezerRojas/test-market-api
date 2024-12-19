@@ -1,10 +1,9 @@
 # Usar una imagen Maven oficial con JDK 18
-FROM maven:3.8.7-openjdk-18-slim AS build
+FROM maven:3.8.7-eclipse-temurin-18-alpine AS build
 WORKDIR /app
 
 # Copiar el archivo pom.xml y el wrapper de Maven (mvnw y su directorio)
 COPY pom.xml .
-COPY mvnw .
 COPY .mvn .mvn
 
 # Copiar las fuentes del proyecto
@@ -14,7 +13,7 @@ COPY src ./src
 RUN chmod +x mvnw
 
 # Ejecutar la compilación de Maven
-RUN ./mvnw clean package -DskipTests
+RUN mvn clean package -DskipTests
 
 # Crear la imagen final con Amazon Corretto
 FROM amazoncorretto:18-alpine-jdk
