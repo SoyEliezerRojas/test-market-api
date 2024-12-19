@@ -1,26 +1,21 @@
-# Usar una imagen Maven oficial con JDK 18
-FROM maven:3.8.7-eclipse-temurin-18-alpine AS build
+# Usar una imagen Maven con JDK 17 (estable)
+FROM maven:3.8.7-openjdk-17-slim AS build
+
+# Crear el directorio de trabajo
 WORKDIR /app
 
-# Copiar el archivo pom.xml y el wrapper de Maven (mvnw y su directorio)
+# Copiar el archivo pom.xml y descargar dependencias
 COPY pom.xml .
-COPY .mvn .mvn
+RUN mvn dependency:go-offline -B
 
-# Copiar las fuentes del proyecto
+# Copiar el código fuente
 COPY src ./src
 
-# Dar permisos de ejecución al wrapper de Maven
-RUN chmod +x mvnw
-
-# Ejecutar la compilación de Maven
+# Compilar el proyecto
 RUN mvn clean package -DskipTests
 
-# Crear la imagen final con Amazon Corretto
+# Crear una imagen final con el JAR compilado
 FROM amazoncorretto:18-alpine-jdk
 WORKDIR /app
-
-# Copiar el JAR generado en la etapa anterior
-COPY --from=build /app/target/my-market-0.0.1-SNAPSHOT.jar app.jar
-
-# Definir el punto de entrada
+COPY --from=build /app/target/*.jar app.jar
 ENTRYPOINT ["java", "-jar", "/app.jar"]
