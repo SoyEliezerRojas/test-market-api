@@ -1,5 +1,5 @@
-# Usar una imagen Maven para construir el proyecto
-FROM maven:3.8.7-eclipse-temurin-18-alpine AS build
+# Usar una imagen Maven oficial con una versión válida de JDK 18
+FROM maven:3.8.7-openjdk-18-slim AS build
 WORKDIR /app
 # Copiar el archivo pom.xml y las fuentes del proyecto
 COPY pom.xml .
